@@ -2,9 +2,6 @@
 
 if [ -x build.sh ]; then
     ./build.sh
-else
-    echo "no build script. Can't continue"
-    exit 1
 fi
 
 if [ -d dist ]; then    
