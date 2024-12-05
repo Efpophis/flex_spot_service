@@ -25,8 +25,9 @@ if [ -d dist ]; then
     sudo sed -e "s/CLUSTER_PORT/$cl_port/g" -i /etc/systemd/system/net-efpophis-spots.service
     sudo sed -e "s/CALLSIGN/$user_call/g" -i /etc/systemd/system/net-efpophis-spots.service
 
-    sudo systemctl enable net-efpophis-spots.service
-    sudo systemctl start net-efpophis-spots
+    sudo systemctl enable --now net-efpophis-spots.service
+    sleep 2
+    systemctl status net-efpophis-spots
     popd
 else
     echo "nothing to install (dist doesn't exist)"
