@@ -26,6 +26,7 @@ if [ -d dist ]; then
     sudo sed -e "s/CALLSIGN/$user_call/g" -i /etc/systemd/system/net-efpophis-spots.service
 
     sudo systemctl enable net-efpophis-spots.service
+    sudo systemctl start net-efpophis-spots
     popd
 else
     echo "nothing to install (dist doesn't exist)"
