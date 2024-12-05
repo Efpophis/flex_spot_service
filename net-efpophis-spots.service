@@ -8,7 +8,7 @@ User=nobody
 Group=dialout
 ExecStart=/usr/local/scripts/spot_rpt --host=dxusa.net --port=7300 --call=WK2X
 RuntimeDirectory=net_efpophis_spot_rpt
-Restart=Always
+Restart=always
 
 [Install]
 WantedBy=default.target
