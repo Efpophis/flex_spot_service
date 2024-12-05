@@ -11,6 +11,8 @@ cp net-efpophis-spots.service dist
 
 mkdir -p spot_rpt
 cp install.sh spot_rpt
+cp uninstall.sh spot_rpt
 cp -r dist spot_rpt
 
 tar cvfz spot_rpt.tar.gz spot_rpt
+rm -rf spot_rpt

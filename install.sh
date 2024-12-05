@@ -21,9 +21,9 @@ if [ -d dist ]; then
     mkdir -p /usr/local/scripts
     sudo install -m755 spot_rpt /usr/local/scripts
     sudo install net-efpophis-spots.service /etc/systemd/system
-    sudo sed -e "s/CLUSTER_HOST/$cl_host/g" /etc/systemd/system/net-efpophis-spots.service
-    sudo sed -e "s/CLUSTER_PORT/$cl_port/g" /etc/systemd/system/net-efpophis-spots.service
-    sudo sed -e "s/CALLSIGN/$user_call/g" /etc/systemd/system/net-efpophis-spots.service
+    sudo sed -e "s/CLUSTER_HOST/$cl_host/g" -i /etc/systemd/system/net-efpophis-spots.service
+    sudo sed -e "s/CLUSTER_PORT/$cl_port/g" -i /etc/systemd/system/net-efpophis-spots.service
+    sudo sed -e "s/CALLSIGN/$user_call/g" -i /etc/systemd/system/net-efpophis-spots.service
 
     sudo systemctl enable net-efpophis-spots.service
     popd
