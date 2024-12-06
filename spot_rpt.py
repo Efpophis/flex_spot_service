@@ -41,17 +41,32 @@ def proc_spots(tn, flex):
             break
 
 def parse_args(argv):
-    host = ''
-    port = 0
-    call = ''
+    reparse = False
     parser = argparse.ArgumentParser()
     
-    parser.add_argument('--call', type=str, required=True)
-    parser.add_argument('--host', type=str, required=True)
-    parser.add_argument('--port', type=int, required=True)
+    parser.add_argument('--call', type=str)
+    parser.add_argument('--host', type=str)
+    parser.add_argument('--port', type=int)
     
     args = parser.parse_args(argv)
+
+    if args.call == None:
+        args.call = input('What is your call sign? ')
+        reparse = True
     
+    if args.host == None:
+        args.host = input('What is the DX Cluster Hostname? ')
+        reparse = True
+    
+    if args.port == None:
+        args.port = input('   DX Cluster Port? ')
+        reparse = True
+    
+    if reparse == True:
+        args = parser.parse_args([f'--host={args.host}', 
+                                f'--call={args.call}', 
+                                f'--port={args.port}'])
+
     return args.host, args.port, args.call
     
 

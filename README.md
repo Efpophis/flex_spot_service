@@ -1,11 +1,12 @@
-# Flex Spot Service
+# Flex Spot Repeater
 
-A python script that can be run as a service on a raspberry pi to feed spots to a Flex 6000 series radio. It should work
-with the new 8000 series as well, but I am too cheap to buy one of those, so I won't be testing it any time soon.
+A python script that can be run interactively or as a service on a raspberry pi to feed spots to a Flex 6000 series 
+radio. It should work with the new 8000 series as well, but I am too cheap to buy one of those, so I won't be testing 
+it any time soon.
 
 If you don't have a Flex 6000 or 8000 series, then .. well .. why are you here???
 
-## Installation (binary for Raspberry Pi running Ubuntu)
+## Installation as a Service (Binary for Raspberry Pi running Ubuntu)
 
 See the [Releases](https://github.com/Efpophis/flex_spot_service/releases) page for the latest releases.
 
@@ -62,6 +63,23 @@ and the binary under a new `dist` subfolder. You can even run the script directl
 
 If you want to build and install at the same time, just run the install script directly from the `flex_spot_service`
 folder. It will find `build.sh` and invoke it on its own before installing everything.
+
+## Running Interactively (on Windows or whatever)
+
+To run the program interactively, either as the .py script (for which you need a python environment) or the binary,
+just pass the appropriate command-line args:
+
+For example, after building on Windows:
+```
+# displays help message and exits
+$ ./spot_rpt.exe -h 
+
+# starts the service - ctrl-c to stop
+$ ./spot_rpt.exe --call=YOURCALL --host=DX.CLUSTER.HOST --port=[DX Cluster Port Number]
+```
+
+If you leave out any of the required arguments, you will be prompted for the information. The program cannot run
+without these pieces of info.
 
 ## Troubleshooting and Support
 
