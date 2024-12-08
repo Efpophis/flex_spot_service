@@ -9,6 +9,9 @@ class FlexRadio:
         self.seq = 1
         self.sock = ClientSocket()
 
+    def __del__(self):
+        self.sock.close()
+
     def Discover(self):
         disc = {}
         sd = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -37,12 +40,12 @@ class FlexRadio:
             
     def SendCmd(self, cmd):
         buf = f"C{self.seq}|{cmd}\n"
-        self.seq += 1
-        #print(buf)
-        ret = self.sock.write(buf.encode())
-        data = self.sock.empty()
+        self.sock.write(buf.encode())
+        garbage = self.sock.read_until(f'R{self.seq}|'.encode())
+        data = self.sock.read_until(b'\n')
         #print(data)
-        return ret
+        self.seq += 1
+        return data
         
     def SendSpot(self, spot):
         cmd = f"spot add rx_freq={spot['frequency']} callsign={spot['dx']} spotter_callsign={spot['spotter']} timestamp={spot['time']}"

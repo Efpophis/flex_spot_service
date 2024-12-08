@@ -6,6 +6,12 @@ class ClientSocket:
     def __init__(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
+    def __del__(self):
+        self.sock.close()
+
+    def close(self):
+        self.sock.close()
+
     def connect(self, host, port):
         return self.sock.connect((host,port))
     
