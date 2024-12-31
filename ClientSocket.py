@@ -12,8 +12,11 @@ class ClientSocket:
     def close(self):
         self.sock.close()
 
-    def connect(self, host, port):
-        return self.sock.connect((host,port))
+    def connect(self, host, port, keepalive=True):
+        ret = self.sock.connect((host,port))
+        if keepalive == True:
+            self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+        return ret
     
     def read(self, count=4096):
         return self.sock.recv(count)
