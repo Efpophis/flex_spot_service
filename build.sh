@@ -5,8 +5,13 @@ rm -rf dist
 rm -rf spot_rpt
 rm -f spot_rpt.spec
 
+# stupid windows
+if [ "`uname`" == "Linux" ]; then
+    pyinstaller --onefile --noconsole spot_rpt.py
+else
+    python -m PyInstaller --onefile --noconsole spot_rpt.py
+fi
 
-python -m PyInstaller --onefile --noconsole spot_rpt.py
 cp net-efpophis-spots.service dist
 
 mkdir -p spot_rpt
