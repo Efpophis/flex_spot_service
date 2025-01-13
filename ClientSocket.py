@@ -34,7 +34,10 @@ class ClientSocket:
             
     def write(self, buffer):
         return self.sock.send(buffer)
-    
+
+    def settimeout(self, timeout):
+        return self.sock.settimeout(timeout)
+
     def empty(self):
         self.sock.settimeout(1)
         ebuf = b''

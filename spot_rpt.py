@@ -4,21 +4,40 @@ import datetime, sys, getopt
 from ClientSocket import *
 from pyhamtools import dxcluster as parser
 from FlexRadio import *
-import argparse
+import argparse, time
 
 def now():
-   ts = datetime.datetime.now(datetime.timezone.utc)
-   return ts.timestamp()
+    ts = datetime.datetime.now(datetime.timezone.utc)
+    return ts.timestamp()
 
 
 def connect_cluster(host, port, call):
-    tn = ClientSocket()
-    tn.connect(host, port)
+    retries = 0
+    tn = None
     login = f'{call}\r\n'
-    tn.write(login.encode())
-    cluster_info = tn.read_until(b'dxspider >\r\n')
-    #print(cluster_info)
-    tn.write(b'sh/myfdx 30\r\n')
+
+    while retries <= 3:
+        try:
+            print(f'trying {host}:{port} ...')
+            tn = ClientSocket()
+            tn.settimeout(15)
+            tn.connect(host, port)
+            tn.write(login.encode())
+            cluster_info = tn.read_until(b' >\r\n')
+            #print(cluster_info)
+            tn.write(b'sh/myfdx 30\r\n')
+            tn.settimeout(None)
+            print('connected')
+            break
+        except socket.timeout:
+            tn.close()
+            tn = None
+            print('timed out. will try again in 1 minute')
+            retries += 1
+            time.sleep(60)
+        except Exception as e:
+            print(e)
+            raise
     return tn
 
 def proc_spots(tn, flex):
@@ -43,11 +62,10 @@ def proc_spots(tn, flex):
 def parse_args(argv):
     reparse = False
     parser = argparse.ArgumentParser()
-    
+
     parser.add_argument('--call', type=str)
     parser.add_argument('--host', type=str)
     parser.add_argument('--port', type=int)
-    
     args = parser.parse_args(argv)
 
     if args.call == None:
@@ -75,8 +93,10 @@ def main(argv):
     flex = FlexRadio()
     flex.Connect()
     tn = connect_cluster(host, port, call)
-    proc_spots(tn, flex)
-   
+    if tn is not None:
+        proc_spots(tn, flex)
+    else:
+        print(f'failed to connect to {host}:{port}')
+
 if __name__ == "__main__":
     main(sys.argv[1:])
-
