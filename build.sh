@@ -13,6 +13,7 @@ else
 fi
 
 cp net-efpophis-spots.service dist
+cp flex_spots.conf dist
 
 mkdir -p spot_rpt
 cp install.sh spot_rpt

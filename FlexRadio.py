@@ -46,10 +46,18 @@ class FlexRadio:
         #print(data)
         self.seq += 1
         return data
+    
+    def SendPermaSpot(self, spot):
+        cmd = f"spot add rx_freq={spot['frequency']} callsign={spot['callsign'].replace(' ', '\x7f')} "
+        cmd += f"lifetime_seconds={spot['lifetime_seconds']} priority={spot['priority']} "
+        cmd += f"source={spot['source'].replace(' ', '\x7f')} color={spot['color']} "
+        cmd += f"background_color={spot['background_color']}"
+        print(cmd)
+        self.SendCmd(cmd)
         
     def SendSpot(self, spot):
         cmd = f"spot add rx_freq={spot['frequency']} callsign={spot['dx']} spotter_callsign={spot['spotter']} timestamp={spot['time']}"
-        cmd += f" lifetime_seconds=3600"
+        cmd += f" lifetime_seconds=3600 priority=5"
         comment = spot['comment'].replace(' ', '\x7f')
         if len(comment) > 0:
             cmd += f" comment={comment}"

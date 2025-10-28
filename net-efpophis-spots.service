@@ -7,7 +7,7 @@ Type=simple
 #User=nobody
 DynamicUser=yes
 Group=dialout
-ExecStart=/usr/local/scripts/spot_rpt --host=CLUSTER_HOST --port=CLUSTER_PORT --call=CALLSIGN
+ExecStart=/usr/local/scripts/spot_rpt 
 RuntimeDirectory=net_efpophis_spot_rpt
 Restart=always
 

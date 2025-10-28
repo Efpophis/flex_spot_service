@@ -21,9 +21,10 @@ if [ -d dist ]; then
     mkdir -p /usr/local/scripts
     sudo install -m755 spot_rpt /usr/local/scripts
     sudo install net-efpophis-spots.service /etc/systemd/system
-    sudo sed -e "s/CLUSTER_HOST/$cl_host/g" -i /etc/systemd/system/net-efpophis-spots.service
-    sudo sed -e "s/CLUSTER_PORT/$cl_port/g" -i /etc/systemd/system/net-efpophis-spots.service
-    sudo sed -e "s/CALLSIGN/$user_call/g" -i /etc/systemd/system/net-efpophis-spots.service
+    sudo install -m644 flex_spots.conf /usr/local/etc
+    sudo sed -e "s/CLUSTER_HOST/$cl_host/g" -i /usr/local/etc/flex_spots.conf
+    sudo sed -e "s/CLUSTER_PORT/$cl_port/g" -i /usr/local/etc/flex_spots.conf
+    sudo sed -e "s/USER_CALLSIGN/$user_call/g" -i /usr/local/etc/flex_spots.conf
 
     sudo systemctl enable --now net-efpophis-spots.service
     sleep 2
