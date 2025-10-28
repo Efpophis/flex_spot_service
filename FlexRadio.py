@@ -48,9 +48,10 @@ class FlexRadio:
         return data
     
     def SendPermaSpot(self, spot):
-        cmd = f"spot add rx_freq={spot['frequency']} callsign={spot['callsign'].replace(' ', '\x7f')} "
+        space = b'\x7f'
+        cmd = f"spot add rx_freq={spot['frequency']} callsign={spot['callsign'].replace(' ', space)} "
         cmd += f"lifetime_seconds={spot['lifetime_seconds']} priority={spot['priority']} "
-        cmd += f"source={spot['source'].replace(' ', '\x7f')} color={spot['color']} "
+        cmd += f"source={spot['source'].replace(' ', space)} color={spot['color']} "
         cmd += f"background_color={spot['background_color']}"
         print(cmd)
         self.SendCmd(cmd)
