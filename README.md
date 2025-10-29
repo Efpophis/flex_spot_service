@@ -21,6 +21,8 @@ Each release has a .tar.gz file attached which contains:
    * this should work with any linux, but I've only tested it on my Pi that runs on Debian Bullseye. YMMV.
 * uninstall.sh - removes the service
 * dist/spot_rpt - executable script that does the things
+* dist/net-efpophis-spots.service - systemd service file
+* dist/flex_spots.conf - configuration file (see below)
 
 To install this version, just run the `install.sh` script. You will be prompted for the following:
 * your call sign [REQUIRED] - this is so the script can log you into the specified cluster node.
@@ -28,6 +30,14 @@ To install this version, just run the `install.sh` script. You will be prompted 
   only use for this service, and nothing else.
 * cluster port [default is 7300] - most clusters operate on this port. you should be able to leave the default value
   unless you know the node you want to use is on a different IP port.
+
+The information you enter will be populated in a config file which is installed to `/usr/local/etc/flex_spots.conf`. You can override this on the command-line using the `--config` argument if you want.
+
+#### flex_spots.conf File Format
+
+The `flex_spots.conf` is a yaml file format with 2 sections. The `cluster` section configures your connection to the cluster. The `perma-spots` section configures permanent spots you want to send to the radio and show on the pan-adapter. These don't have to be DX call signs. They can be band edges, or 6m and 10m FM repeater frequencies, or net frequencies, or whatever. I have pre-populated the file with the USA band edges and CW/SSB portion boundaries for 160m - 6m (not including 60m). The should be easy to extend to add or remove whatever you like. Just make sure to include all the fields in your new perma-spots.
+
+### Uninstalling
   
 If you don't like this, you can uninstall it by running:
 ```
@@ -49,6 +59,7 @@ The following modules are also needed:
 ```
 $ pip install pyinstaller
 $ pip install pyhamtools
+$ pip install pyyaml
 ```
 
 Your Linux machine must also support the `systemctl` command for managing services in `/etc/systemd/system`
@@ -76,10 +87,12 @@ $ ./spot_rpt.exe -h
 
 # starts the service - ctrl-c to stop
 $ ./spot_rpt.exe --call=YOURCALL --host=DX.CLUSTER.HOST --port=[DX Cluster Port Number]
+or
+$ ./spot_rpt.ext --config=c:\path\to\flex_spots.conf
 ```
 
-If you leave out any of the required arguments, you will be prompted for the information. The program cannot run
-without these pieces of info.
+Command-line arguments always override the same information specified in the config file. So you can use the CLI to
+test your new configuration wihtout mucking up the file.
 
 ## Troubleshooting and Support
 
