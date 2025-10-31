@@ -31,11 +31,18 @@ To install this version, just run the `install.sh` script. You will be prompted 
 * cluster port [default is 7300] - most clusters operate on this port. you should be able to leave the default value
   unless you know the node you want to use is on a different IP port.
 
-The information you enter will be populated in a config file which is installed to `/usr/local/etc/flex_spots.conf`. You can override this on the command-line using the `--config` argument if you want.
+The information you enter will be populated in a config file which is installed to `/usr/local/etc/flex_spots.conf`. You can override this on the command-line using the `--config` argument if you want, eg:
+
+```
+$ /usr/local/scripts/spot_rpt --call=Y0URCALL --host=some.host.net --port=7333
+```
+
+The binary is installed to `/usr/loca/scripts/spot_rpt`. The service configuration is placed in `/etc/systemd/system/net-efpophis-spots.service`, and the configuration file is placed in `/usr/local/etc/flex_spots.conf`
+
 
 #### flex_spots.conf File Format
 
-The `flex_spots.conf` is a yaml file format with 2 sections. The `cluster` section configures your connection to the cluster. The `perma-spots` section configures permanent spots you want to send to the radio and show on the pan-adapter. These don't have to be DX call signs. They can be band edges, or 6m and 10m FM repeater frequencies, or net frequencies, or whatever. I have pre-populated the file with the USA band edges and CW/SSB portion boundaries for 160m - 6m (not including 60m). The should be easy to extend to add or remove whatever you like. Just make sure to include all the fields in your new perma-spots.
+The `flex_spots.conf` is a yaml file format with 2 sections. The `cluster` section configures your connection to the cluster. The `perma-spots` section configures permanent spots you want to send to the radio and show on the pan-adapter. These don't have to be DX call signs. They can be band edges, or 6m and 10m FM repeater frequencies, or net frequencies, or whatever. I have pre-populated the file with the USA band edges and CW/SSB portion boundaries for 160m - 6m (not including 60m). You should be able to extend this sectio, adding or removing whatever you like. Just make sure to include all the fields in your new perma-spots.
 
 ### Uninstalling
   
